@@ -10,6 +10,7 @@ adafruit-dht = "*"
 setuptools = "*"
 wheel = "*"
 python-dotenv = "*"
+requests = "*"
 
 [requires]
 python_version = "3"
