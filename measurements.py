@@ -1,6 +1,6 @@
 import os
 import datetime
-import urllib.parse.join as urljoin
+from urllib.parse import urljoin
 import time as time_library
 
 # making HTTP requests
