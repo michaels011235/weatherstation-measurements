@@ -3,12 +3,10 @@ import datetime
 from urllib.parse import urljoin
 import time as time_library
 
+# External libraries
 # making HTTP requests
 import requests
 
-# read the variables defined in the .env file
-# from dotenv import load_dotenv
-# load_dotenv()
 
 # import sensor specific library.
 from Adafruit_DHT import DHT22, read_retry
