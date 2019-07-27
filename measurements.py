@@ -7,8 +7,8 @@ import time as time_library
 import requests
 
 # read the variables defined in the .env file
-from dotenv import load_dotenv
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 
 # import sensor specific library.
 from Adafruit_DHT import DHT22, read_retry
@@ -60,7 +60,8 @@ while True:
     measurements_list = []
   except Exception as e:
     print(type(e).__name__, e.args)
-    print('Statuscode: {}'.format(req.status_code))
+    print(measurements_list)
+    # print('Statuscode: {}'.format(req.status_code))
   
   # start the code INTERVAL_SECONDS later
   time_library.sleep(int(os.getenv('INTERVAL_SECONDS')))
