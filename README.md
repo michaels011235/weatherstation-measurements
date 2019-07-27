@@ -52,7 +52,10 @@ This project about making temperature and humidity measurements using the Adafru
 
   - Change the default password: `sudo raspi-config`.
 
+  - install `pip3` for Python package loading: `sudo apt-get install python3-pip`.
+
   - Done.
+
 
 ## Installation.
 
@@ -62,4 +65,8 @@ This project about making temperature and humidity measurements using the Adafru
 
 - copy `.env.example` to `.env` and adapt the variables as neccessary.
 
-- 
+- `source .env` - This will load the variables defined in `.env` to the environment.
+
+- `pip3 install Adafruit_DHT requests` to install the external libraries. 
+
+- `python3 <PATHTOFILE>/measurements.py` to run the program.

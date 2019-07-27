@@ -4,13 +4,13 @@ from urllib.parse import urljoin
 import time as time_library
 
 # External libraries
+# --- begin external libraries
 # making HTTP requests
 import requests
 
-
 # import sensor specific library.
 from Adafruit_DHT import DHT22, read_retry
-
+# --- end of external libraries.
 
 # load environment variables.
 raspberrypi_data_pin = int(os.getenv('DHT22_GPIO_PIN_NUMBER'))
