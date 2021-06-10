@@ -44,7 +44,11 @@ This project about making temperature and humidity measurements using the Adafru
 
       - run `ifconfig` and get the own IP address (this is the one your router assigns you, not the one one could Google).
       - install `nmap`: `sudo apt install nmap`. 
-      - run the following command: `sudo nmap -sn 10.0.0.0`. The IP address at the and has to be: Replace the last number of your IP address with `0`. The output tells you the Raspberry Pi IP adress.
+      - run the following command: `sudo nmap -sn 10.0.0.0/24`. The IP-address at the end has to be modified as follows: 
+        - Replace the last number of your IP address with `0`. 
+        - Add `/24`.
+        
+        The output tells you the Raspberry Pi IP adress.
 
   - SSH into it. Make you have `ssh` installed. Then: `ssh pi@10.0.0.xxx`, where the ip address has to be the Raspberry Pi's address. 
 
