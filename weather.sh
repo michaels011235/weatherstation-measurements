@@ -1,5 +1,8 @@
 #!/bin/bash
 
+
+date >> script_log.txt
+
 script="$0"
 DIRPATH="$(dirname $script)"
 
