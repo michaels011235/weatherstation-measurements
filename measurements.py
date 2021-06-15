@@ -1,3 +1,5 @@
+print('running measurements.py')
+
 import os
 import datetime
 from urllib.parse import urljoin
@@ -15,6 +17,7 @@ from Adafruit_DHT import DHT22, read_retry
 # load environment variables.
 raspberrypi_data_pin = int(os.getenv('DHT22_GPIO_PIN_NUMBER'))
 url = urljoin(os.getenv('WEATHER_SERVER_URL'), os.getenv('API_ENDPOINT'))
+print(url)
 
 def read_sensor():
   '''
@@ -29,6 +32,9 @@ def read_sensor():
 # measurements and send if there is a connection
 # initialize an empty list for storage
 measurements_list = []
+
+
+print('before main loop')
 
 while True:
   # make a measurement
