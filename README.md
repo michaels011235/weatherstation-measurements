@@ -32,25 +32,37 @@ This project about making temperature and humidity measurements using the Adafru
 
   - For Linux: Follow this guide to install the image: https://www.raspberrypi.org/documentation/installation/installing-images/linux.md After unzipping I used `sudo cp raspbian-image.img /dev/mmcblk0`
 
-  - Follow headless setup: https://www.raspberrypi.org/documentation/configuration/wireless/headless.md CAVE: The boot folder in the tutorial is the `boot` mount point. It is NOT the `boot` folder in the `rootfs` directory.
+  - Follow headless setup: https://www.raspberrypi.org/documentation/configuration/wireless/headless.md CAVE: The boot folder in the tutorial is the `boot` partition of the SD-card. It is NOT the `boot` folder in the `rootfs` directory. 
 
-  - connect the power supply. The Pi will boot. 
+    I added a file named `wpa_supplicant.conf` to the boot partition whose contents are:
 
-  - Find the IP Address of the Raspberry Pi:
+    ```
+    ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+    update_config=1
+    country=AT
 
-    - Open internet router webpage (something like `10.0.0.xxx`) in the browser. Get the IP address of the Raspberry Pi. 
-  
-    - Use `nmap`
+    network={
+    ssid="<NameOfWifiNetwork>"
+    psk="<password>"
+    priority=2
+    }
 
-      - run `ifconfig` and get the own IP address (this is the one your router assigns you, not the one one could Google).
-      - install `nmap`: `sudo apt install nmap`. 
-      - run the following command: `sudo nmap -sn 10.0.0.0/24`. The IP-address at the end has to be modified as follows: 
-        - Replace the last number of your IP address with `0`. 
-        - Add `/24`.
-        
-        The output tells you the Raspberry Pi IP adress.
+    network={
+    ssid="<NameOfWifiNetworkNumber2>"
+    psk="<passwordofNetworkNumber2>"
+    priority=1
+    }
+    ```
+    As indicated several networks are possible.
+    The network given the priority 2 is preferred.
 
-  - SSH into it. Make you have `ssh` installed. Then: `ssh pi@10.0.0.xxx`, where the ip address has to be the Raspberry Pi's address. 
+  - To enable SSH on a headless Raspberry Pi add a file named `ssh` to the boot partition. The content does not matter. This file activates SSH.
+
+  - Insert the SD-card into the Raspberry Pi. Connect the power supply. The Pi will boot. 
+
+  - For the following step, make sure, your PC is connected to the same network router as the Raspberry Pi.
+
+  - For remote control SSH into the Raspberry Pi. Make sure you have `ssh` installed. Then use `ssh pi@raspberrypi.local`. This works, due to the Raspberry Pi's built-in support for Multicast DNS (mDNS). -- It's like magic and is way faster than finding the Raspberry Pi's IP-address!
 
   - You will be prompted a password. By default it is: `raspberry`.
 
@@ -58,10 +70,8 @@ This project about making temperature and humidity measurements using the Adafru
 
   - install `pip3` for Python package loading: `sudo apt-get install python3-pip`.
 
-  - Done.
 
-
-## Installation.
+## Installation and basic execution.
 
 - `git clone` this repository.
 
@@ -71,6 +81,16 @@ This project about making temperature and humidity measurements using the Adafru
 
 - `source .env` - This will load the variables defined in `.env` to the environment.
 
-- `pip3 install Adafruit_DHT requests` to install the external libraries. 
+- `pip3 install Adafruit_DHT requests` to install the required external libraries. 
 
 - `python3 <PATHTOFILE>/measurements.py` to run the program.
+
+## Automatic execution after plugging in the Raspberry Pi.
+
+- `chmod 777 weather.sh`
+
+- Crontab let's you automatically execute programs. Run `crontab -e` and add the line `@reboot /home/pi/weatherstation-measurements/weather.sh` at the end. 
+
+  Beware not to use `sudo crontab -e`. It took me a **day** to realize that the owner of the process would be *root* who does not have access to the libaries installed by `pip3 install Adafruit_DHT requests`. If you want to use the *root* user, you have to run `sudo pip3 install Adafruit_DHT requests` in preparation.
+
+- Now, upon connecting the Raspberry Pi to a power supply it should connect automatically to the internet (if the network is accessible) and execute `measurements.py`. That means, it should measure the temperature and humidity periodically and send it to the server.
